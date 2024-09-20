@@ -22,6 +22,14 @@ A modern, scalable blog system with a REST API backend and two separate frontend
 - Express.js
 - Prisma ORM
 - PostgreSQL
+
+
+
+
+
+
+
+
 - JSON Web Tokens (JWT)
 
 ### Frontend
