@@ -75,7 +75,7 @@ The use of foreign keys (FK) ensures referential integrity in our database, whil
 
 1. Clone the repository
    ```
-   git clone https://github.com/your-username/full-stack-blog-system.git
+   git clone https://github.com/obre-bjorn/full-stack-blog-system.git
    ```
 
 2. Install dependencies
