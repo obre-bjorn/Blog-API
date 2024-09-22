@@ -1,4 +1,6 @@
 const express = require('express')
+const initializePassport = require('./config/passport')
+const userRouter = require('./routes/user')
 
 
 const app = express()
@@ -6,6 +8,8 @@ const app = express()
 
 app.use(express.urlencoded({extended:false}))
 
+
+app.use('/',userRouter)
 
 
 
