@@ -1,7 +1,10 @@
 const bcrypt = require('bcryptjs')
 const userQueries = require('../db/userQueries')
+const jwt  = require('jsonwebtoken')
 
 
+
+require('dotenv').config()
 
 //TODO: To validate user 
 
@@ -15,7 +18,7 @@ const registerUser = async (req,res) =>{
 
 
         res.status(200).json({
-            msg: "UserCreated",
+            msg: "User Created",
             user: user
         })
 
@@ -27,12 +30,70 @@ const registerUser = async (req,res) =>{
         
     }
     
+}
+
+
+const loginUser = async (req,res) =>{
+
+    const {username, password } = req.body
+
+
+    try { 
+
+        const user = await userQueries.findUserByUsername(username)
+    
+        if(!username){
+    
+            return res.status(400).json({
+                msg: "User not found"
+            })
+    
+        }
+    
+        const passwordMatch = await bcrypt.compare(password, user.password)
+    
+        if(!passwordMatch){
+            
+            return res.status(400).json({
+                msg: "Password does not match"
+            })
+        }
+    
+        const payload = {id : user.id, username: user.password}
+    
+        const token = await new Promise((resolve,reject) => {
+            
+            jwt.sign(payload,process.env.JWT_SECRET_KEY,{expiresIn: 3600},(err,token) => {
+    
+                if(err) reject(err)
+    
+                resolve(token)
+            })
+            
+        } )
+    
+        res.status(200).json({
+            success : true,
+            token : 'Bearer ' + token
+        })
+    
+    } catch(error) {
+
+
+        console.log(error)
+
+        res.status(500).json({
+            msg: "Something went wrong!"
+        })
+    }  
+    
     
 }
 
 
 module.exports ={
-    registerUser
+    registerUser,
+    loginUser
 }
 
 

@@ -11,7 +11,7 @@ const opts = {
     secretOrKey: process.env.JWT_SECRET_KEY
 }
 
-function initializePassport(app){
+function initializePassport(){
 
     passport.use(
         new Strategy(opts, async (jwt_payload,done) =>{
@@ -38,4 +38,4 @@ function initializePassport(app){
 }
 
 
-module.export = initializePassport
+module.exports = initializePassport
