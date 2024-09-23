@@ -9,10 +9,7 @@ const app = express()
 
 initializePassport()
 
-
 app.use(express.urlencoded({extended:false}))
-
-
 
 
 app.use('/',userRouter)
