@@ -1,11 +1,9 @@
 const prisma = require('../config/prismaClient')
 
 
-const getAllPosts = async (comments) => {
+const getAllPosts = async () => {
     
-    const posts = await (comments ? 
-        prisma.post.findMany({include : {comments : true}}) :
-            prisma.posts.findMany({}))
+    const posts = await prisma.post.findMany()
 
     return posts
 }
@@ -32,7 +30,7 @@ const createPost =  async (title, content, userId, publish) => {
         data : {
             title : title,
             content : content,
-            userId : userId,
+            authorId : userId,
             published: publish
         }
     })
@@ -41,7 +39,7 @@ const createPost =  async (title, content, userId, publish) => {
 
 
 }
-const updatePost = async (id,title,content) =>{
+const updatePost = async (id,title,content,publish) =>{
 
     const post = await prisma.post.update({
         where: {
@@ -49,10 +47,13 @@ const updatePost = async (id,title,content) =>{
         },
         data : {
             title : title,
-            content : content
+            content : content,
+            // & TO CHANGE DATATYPE IN CONTROLLER
+            published : new Boolean(publish).valueOf()
         }
     })
 
+    return post
 }
 
 const deletePost = async (id) => {

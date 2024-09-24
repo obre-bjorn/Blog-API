@@ -13,7 +13,7 @@ const getAllPosts = async (req,res) => {
 
 
     } catch (error) {
-        
+        console.log(error)
         return res.status(500).json({msg:"Internal server error"})
 
     }
@@ -38,13 +38,24 @@ const createNewPost = async (req,res) => {
     
     const {title,content,publish} = req.body
 
-    const post = await postQueries.createPost(title,content,req.user.id, publish)
-    
 
-    return res.status(200).json({
-        msg: "Succesfully created post",
-        post: post
-    })
+    try {
+        
+        const post = await postQueries.createPost(title,content,1, new Boolean(publish).valueOf())
+        
+    
+        return res.status(200).json({
+            msg: "Succesfully created post",
+            post: post
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            msg: "Something went wrong"
+        })
+    }
+
 
 }
 
@@ -52,7 +63,7 @@ const updatePost = async (req,res) => {
 
     const {title, content,publish} = req.body
 
-    const updatedPost = await postQueries.updatePost(title,content,publish)
+    const updatedPost = await postQueries.updatePost(parseInt(req.params.id),title,content,publish)
 
     return res.status(200).json({
         msg : "Successfully updated post",
@@ -62,11 +73,11 @@ const updatePost = async (req,res) => {
 
 const deletePost = async (req,res) =>{
 
-    const id = req.params.id
+    const id = parseInt(req.params.id)
 
     const deletedPost = await postQueries.deletePost(id)
 
-    return res.status(200).status({
+    return res.status(200).json({
         msg: "Successfully deleted a post",
         post : deletedPost
     })
