@@ -30,7 +30,7 @@ const updateComment = async (req,res) => {
 
     try {
         
-        const updatedComment = await commentQueries.updateComment(parseInt(req.params.id,))
+        const updatedComment = await commentQueries.updateComment(parseInt(req.params.id,),content)
 
         return res.status(200).json({
             msg : "Comment updated",
@@ -60,8 +60,6 @@ const deleteComment = async (req,res) => {
             msg : "Something went wrong"
         })
     }
-
-
 
 }
 

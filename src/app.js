@@ -4,6 +4,7 @@ const initializePassport = require('./config/passport')
 // Routes
 const userRouter = require('./routes/user')
 const postRouter = require('./routes/post')
+const commentRouter = require('./routes/comment')
 
 //& TEST FOR AUTHENTICATION TOKEN
 const passport = require('passport')
@@ -17,6 +18,7 @@ app.use(express.urlencoded({extended:false}))
 
 app.use('/',userRouter)
 app.use('/',postRouter)
+app.use('/',commentRouter)
 
 app.use('/protected', passport.authenticate('jwt', {session : false}), (req,res) => {
 
