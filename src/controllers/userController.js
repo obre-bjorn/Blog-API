@@ -87,13 +87,35 @@ const loginUser = async (req,res) =>{
         })
     }  
     
+}
+
+
+const isUserAuthor = (req,res,next) => {
+
     
+
+
+}
+
+
+const isUserAdmin = (req,res,next) => {
+
+    const user = req.user
+
+    if(user.role !== "ADMIN"){
+
+        res.json(401).status("Action restricted")
+
+    }
+    next()
+
 }
 
 
 module.exports ={
     registerUser,
-    loginUser
+    loginUser,
+    isUserAdmin
 }
 
 
