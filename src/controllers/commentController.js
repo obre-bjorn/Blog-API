@@ -7,7 +7,7 @@ const createComment = async (req,res) => {
 
     try {
 
-        const comment = await commentQueries.createComment(parseInt(req.params.postId),parseInt(req.user.id),content)
+        const comment = await commentQueries.createComment(parseInt(req.params.postId),1,content)
 
         return res.status(200).json({
             msg: "Successfully commented",
@@ -30,7 +30,7 @@ const updateComment = async (req,res) => {
 
     try {
         
-        const updatedComment = await commentQueries.updateComment(parseInt(req.params.id,),content)
+        const updatedComment = await commentQueries.updateComment(parseInt(req.params.commentId,),content)
 
         return res.status(200).json({
             msg : "Comment updated",

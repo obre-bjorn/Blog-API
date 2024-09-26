@@ -27,11 +27,11 @@ const createComment = async (postId,userId,content) => {
 
 }
 
-const updateComment = async (id,content) => {
+const updateComment = async (commentId,content) => {
 
     const updatedComment = await prisma.comment.update({
         where: {
-            id : postId
+            id : commentId
         },
         data : {
             content : content
