@@ -104,7 +104,7 @@ const isUserAdmin = (req,res,next) => {
 
     if(user.role !== "ADMIN"){
 
-        res.json(401).status("Action restricted")
+       return res.status(401).json("Action restricted")
 
     }
     next()
