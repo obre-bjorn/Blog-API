@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const initializePassport = require('./config/passport')
 
 // Routes
@@ -14,6 +15,13 @@ const app = express()
 initializePassport()
 
 app.use(express.urlencoded({extended:false}))
+app.use(express.jsom())
+app.use(
+    cors(
+        {origin: 'http://localhost:5173', 
+    credentials: true,}
+    )
+)
 
 
 app.use('/', userRouter)

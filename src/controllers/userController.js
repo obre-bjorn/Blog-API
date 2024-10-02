@@ -90,13 +90,6 @@ const loginUser = async (req,res) =>{
 }
 
 
-const isUserAuthor = (req,res,next) => {
-
-    
-
-
-}
-
 
 const isUserAdmin = (req,res,next) => {
 
