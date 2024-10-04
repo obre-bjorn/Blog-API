@@ -6,7 +6,7 @@ const jwt  = require('jsonwebtoken')
 
 require('dotenv').config()
 
-//TODO: To validate user 
+//TODO: To validate user
 
 const registerUser = async (req,res) =>{
 
@@ -27,56 +27,58 @@ const registerUser = async (req,res) =>{
         res.status(400).json({
             msg : "Something went wrong"
     })
-        
+
     }
-    
+
 }
 
 
 const loginUser = async (req,res) =>{
 
+    console.log(req.body);
     const {username, password } = req.body
 
 
-    try { 
+    try {
 
         const user = await userQueries.findUserByUsername(username)
-    
-        if(!username){
-    
+
+        if(!user){
+
             return res.status(400).json({
                 msg: "User not found"
             })
-    
+
         }
-    
+
         const passwordMatch = await bcrypt.compare(password, user.password)
-    
+
         if(!passwordMatch){
-            
+
             return res.status(400).json({
                 msg: "Password does not match"
             })
         }
-    
+
         const payload = {id : user.id, username: user.password}
-    
+
         const token = await new Promise((resolve,reject) => {
-            
+
             jwt.sign(payload,process.env.JWT_SECRET_KEY,{expiresIn: 3600},(err,token) => {
-    
+
                 if(err) reject(err)
-    
+
                 resolve(token)
             })
-            
+
         } )
-    
+
         res.status(200).json({
             success : true,
+            user: user,
             token : 'Bearer ' + token
         })
-    
+
     } catch(error) {
 
 
@@ -85,8 +87,8 @@ const loginUser = async (req,res) =>{
         res.status(500).json({
             msg: "Something went wrong!"
         })
-    }  
-    
+    }
+
 }
 
 
@@ -110,5 +112,3 @@ module.exports ={
     loginUser,
     isUserAdmin
 }
-
-

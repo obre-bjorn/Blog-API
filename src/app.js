@@ -7,6 +7,9 @@ const userRouter = require('./routes/user')
 const postRouter = require('./routes/post')
 const commentRouter = require('./routes/comment')
 
+
+require('dotenv').config()
+
 //& TEST FOR AUTHENTICATION TOKEN
 const passport = require('passport')
 
@@ -15,11 +18,11 @@ const app = express()
 initializePassport()
 
 app.use(express.urlencoded({extended:false}))
-app.use(express.jsom())
+app.use(express.json())
 app.use(
-    cors(
-        {origin: 'http://localhost:5173', 
-    credentials: true,}
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true,}
     )
 )
 
