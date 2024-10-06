@@ -2,7 +2,7 @@ const prisma = require('../config/prismaClient')
 
 
 const getAllPosts = async () => {
-    
+
     const posts = await prisma.post.findMany()
 
     return posts
@@ -16,16 +16,31 @@ const getPostById = async (id) => {
             id : id
         },
         include : {
-            comments : true
-        } 
+          comments: {
+            include: {
+              author: {
+                select: {
+                  username: true,
+                  email: true
+                }
+              }
+            }
+          },
+          author: { 
+            select: {
+              username: true,
+              email: true
+            }
+          }
+        }
     })
-    
+
 
     return post
 }
 
 const createPost =  async (title, content, userId, publish) => {
-    
+
     const post = await prisma.post.create({
         data : {
             title : title,
