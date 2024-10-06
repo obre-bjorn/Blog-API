@@ -25,9 +25,9 @@ const getAllPosts = async (req,res) => {
 
 const getPostById = async (req,res) =>{
 
-    const post = await postQueries.getPostById(req.params.id)
+    const post = await postQueries.getPostById(parseInt(req.params.id))
 
-    return res.statuss(200).json({
+    return res.status(200).json({
         msg : "Success",
         post : post
     })
@@ -35,15 +35,15 @@ const getPostById = async (req,res) =>{
 }
 
 const createNewPost = async (req,res) => {
-    
+
     const {title,content,publish} = req.body
 
 
     try {
-        
+
         const post = await postQueries.createPost(title,content,1, new Boolean(publish).valueOf())
-        
-    
+
+
         return res.status(200).json({
             msg: "Succesfully created post",
             post: post
