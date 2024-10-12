@@ -41,7 +41,7 @@ const createNewPost = async (req,res) => {
 
     try {
 
-        const post = await postQueries.createPost(title,content,1, new Boolean(publish).valueOf())
+        const post = await postQueries.createPost(title,content,req.user.id, new Boolean(publish).valueOf())
 
 
         return res.status(200).json({
