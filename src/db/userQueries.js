@@ -1,9 +1,9 @@
 
 const prisma = require('../config/prismaClient')
 
-const createUser = ({username,email,password,role}) =>{
+const createUser = async ({username,email,password,role}) =>{
 
-    const user = prisma.user.create({
+    const user = await prisma.user.create({
         data : {
             username: username,
             email: email,
@@ -13,12 +13,12 @@ const createUser = ({username,email,password,role}) =>{
     })
 
     return user
-}       
+}
 
 
-const findUserById = (id) =>{
-    
-    const user = prisma.user.findUnique({
+const findUserById = async (id) =>{
+
+    const user = await prisma.user.findUnique({
         where:{id}
     })
 
@@ -26,9 +26,9 @@ const findUserById = (id) =>{
 
 }
 
-const findUserByUsername = (username) => {
+const findUserByUsername = async (username) => {
 
-    const user  = prisma.user.findUnique({
+    const user  = await prisma.user.findUnique({
         where: {
             username : username
         }
@@ -38,10 +38,48 @@ const findUserByUsername = (username) => {
     return user
 }
 
+const getAllUsers =  async () => {
+
+  const users = await prisma.user.findMany()
+
+  return users
+
+}
+
+const updateUser = async (userId,role) => {
+
+
+  const updatedUser = await prisma.user.update({
+    where : {
+      id : userId
+    },
+    data: {
+      role:role
+    }
+
+  })
+
+  return updatedUser
+ }
+
+const deleteUser = async (userId) => {
+
+  const deletedUser = await prisma.user.delete({
+    where : {
+      id : {id}
+    }
+  })
+
+  return deletedUser
+}
+
 
 
 
 module.exports = {
+    deleteUser,
+    updateUser,
+    getAllUsers,
     createUser,
     findUserById,
     findUserByUsername
